@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TECHSYNAPSE – Problem Statements Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --neon-cyan: #00f5ff;
+      --neon-green: #39ff14;
+      --accent-amber: #ffb700;
+      --dark-bg: #060a0f;
+      --card-bg: #0d1520;
+      --card-border: #1a2a3a;
+      --text-muted: #5a7a8a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--dark-bg);
+      font-family: 'Syne', sans-serif;
+      color: #c8dde8;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Ambient glow blobs */
+    .glow-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.12;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Orbitron', monospace;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 10, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .navbar .logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 20px rgba(0,245,255,0.6);
+    }
+
+    .navbar .logo span { color: #fff; }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.2s;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      user-select: none;
+    }
+    .back-btn:hover { color: var(--neon-cyan); }
+    .back-btn svg { width: 16px; height: 16px; }
+
+    /* ── Page sections ── */
+    .page { display: none; position: relative; z-index: 1; }
+    .page.active { display: block; animation: fadeSlideIn 0.35s ease forwards; }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Hero header ── */
+    .hero {
+      text-align: center;
+      padding: 64px 24px 48px;
+    }
+
+    .hero .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--neon-cyan);
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.6rem, 5vw, 3.2rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .hero h1 .accent { color: var(--neon-cyan); }
+
+    .hero p {
+      margin-top: 16px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .hero .divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+      margin: 28px auto 0;
+    }
+
+    /* ── Section title ── */
+    .section-title {
+      text-align: center;
+      padding: 40px 24px 24px;
+    }
+    .section-title h2 {
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      color: #fff;
+      letter-spacing: 0.04em;
+    }
+    .section-title .sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── Cards grid ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 0 24px 64px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Branch cards (homepage) */
+    .branch-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .branch-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,245,255,0.04) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .branch-card:hover::before { opacity: 1; }
+
+    .branch-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 32px rgba(0,245,255,0.12), 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .branch-card .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .branch-card .card-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .branch-card h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
+    }
+
+    .branch-card .card-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .branch-card .track-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .branch-card .track-list li {
+      font-size: 0.73rem;
+      color: #8aa4b5;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .branch-card .track-list li::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--neon-cyan);
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    .branch-card .card-footer {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .branch-card .track-count {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .branch-card .arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .branch-card:hover .arrow {
+      background: var(--neon-cyan);
+      border-color: var(--neon-cyan);
+    }
+
+    .branch-card:hover .arrow svg { color: #000; }
+
+    /* ── Track cards ── */
+    .track-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 26px 24px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .track-card::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--neon-cyan);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .track-card:hover::after { opacity: 1; }
+
+    .track-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0,245,255,0.3);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+
+    .track-card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .track-card p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .track-card .track-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 18px;
+    }
+
+    .track-card .badge {
+      font-size: 0.63rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(0,245,255,0.08);
+      color: var(--neon-cyan);
+      border: 1px solid rgba(0,245,255,0.15);
+      font-weight: 600;
+    }
+
+    /* ── Problem statement page ── */
+    .problem-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .problem-header {
+      border-left: 3px solid var(--neon-cyan);
+      padding-left: 20px;
+      margin-bottom: 40px;
+    }
+
+    .problem-header .breadcrumb {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .problem-header h2 {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: #fff;
+      letter-spacing: 0.03em;
+    }
+
+    .problem-placeholder {
+      background: var(--card-bg);
+      border: 1px dashed var(--card-border);
+      border-radius: 14px;
+      padding: 48px 32px;
+      text-align: center;
+    }
+
+    .problem-placeholder .ps-icon {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      opacity: 0.4;
+    }
+
+    .problem-placeholder h3 {
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .problem-placeholder p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      max-width: 340px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-amber);
+      border: 1px solid rgba(255,183,0,0.25);
+      background: rgba(255,183,0,0.06);
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-top: 20px;
+      font-weight: 600;
+    }
+
+    .status-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-amber);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ── Color variants per branch ── */
+    .cs-accent   { --branch-color: #00f5ff; }
+    .ece-accent  { --branch-color: #00ff9f; }
+    .eee-accent  { --branch-color: #ffd700; }
+    .civil-accent { --branch-color: #ff6b35; }
+    .mech-accent { --branch-color: #bf5fff; }
+
+    .cs-accent .card-icon   { background: rgba(0,245,255,0.1); }
+    .ece-accent .card-icon  { background: rgba(0,255,159,0.1); }
+    .eee-accent .card-icon  { background: rgba(255,215,0,0.1); }
+    .civil-accent .card-icon { background: rgba(255,107,53,0.1); }
+    .mech-accent .card-icon { background: rgba(191,95,255,0.1); }
+
+    .cs-accent .card-tag    { background: rgba(0,245,255,0.1); color: #00f5ff; }
+    .ece-accent .card-tag   { background: rgba(0,255,159,0.1); color: #00ff9f; }
+    .eee-accent .card-tag   { background: rgba(255,215,0,0.1);  color: #ffd700; }
+    .civil-accent .card-tag { background: rgba(255,107,53,0.1); color: #ff6b35; }
+    .mech-accent .card-tag  { background: rgba(191,95,255,0.1); color: #bf5fff; }
+
+    .cs-accent:hover    { border-color: #00f5ff !important; box-shadow: 0 0 32px rgba(0,245,255,0.1), 0 8px 24px rgba(0,0,0,0.4) !important; }
+    .ece-accent:hover   { border-color: #00ff9f !important; box-shadow: 0 0 32px rgba(0,255,159,0.1), 0 8px 24px rgba(0,0,0,0.4) !important; }
+    .eee-accent:hover   { border-color: #ffd700 !important; box-shadow: 0 0 32px rgba(255,215,0,0.1), 0 8px 24px rgba(0,0,0,0.4) !important; }
+    .civil-accent:hover { border-color: #ff6b35 !important; box-shadow: 0 0 32px rgba(255,107,53,0.1), 0 8px 24px rgba(0,0,0,0.4) !important; }
+    .mech-accent:hover  { border-color: #bf5fff !important; box-shadow: 0 0 32px rgba(191,95,255,0.1), 0 8px 24px rgba(0,0,0,0.4) !important; }
+
+    /* ── EEE Rules button ── */
+    .eee-rules-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ffd700;
+      border: 1px solid rgba(255,215,0,0.35);
+      background: rgba(255,215,0,0.08);
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .eee-rules-btn:hover {
+      background: rgba(255,215,0,0.18);
+      border-color: rgba(255,215,0,0.7);
+      transform: translateY(-1px);
+      box-shadow: 0 0 12px rgba(255,215,0,0.25);
+    }
+
+    /* ── EEE Rules standalone button (below card) ── */
+    .eee-rules-btn-standalone {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ffd700;
+      border: 1px solid rgba(255,215,0,0.4);
+      background: rgba(255,215,0,0.07);
+      padding: 11px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .eee-rules-btn-standalone:hover {
+      background: rgba(255,215,0,0.15);
+      border-color: rgba(255,215,0,0.8);
+      transform: translateY(-2px);
+      box-shadow: 0 0 18px rgba(255,215,0,0.2);
+    }
+
+    /* ── Rules nav button ── */
+    .rules-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-amber);
+      border: 1px solid rgba(255,183,0,0.3);
+      background: rgba(255,183,0,0.07);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .rules-nav-btn:hover {
+      background: rgba(255,183,0,0.15);
+      border-color: var(--accent-amber);
+      color: #fff;
+    }
+
+    /* ── Rules page ── */
+    .rules-container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .rules-hero {
+      background: linear-gradient(135deg, rgba(255,183,0,0.07) 0%, rgba(13,21,32,0) 60%);
+      border: 1px solid rgba(255,183,0,0.18);
+      border-radius: 16px;
+      padding: 32px 28px;
+      margin-bottom: 36px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .rules-hero .rules-icon {
+      font-size: 2.2rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .rules-hero h2 {
+      font-size: clamp(0.95rem, 2.5vw, 1.3rem);
+      color: #fff;
+      letter-spacing: 0.03em;
+      margin-bottom: 8px;
+    }
+
+    .rules-hero p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .rules-hero .eee-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent-amber);
+      background: rgba(255,183,0,0.1);
+      border: 1px solid rgba(255,183,0,0.2);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .rules-section {
+      margin-bottom: 28px;
+    }
+
+    .rules-section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .rules-section-header .sec-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255,183,0,0.12);
+      border: 1px solid rgba(255,183,0,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      color: var(--accent-amber);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .rules-section-header h3 {
+      font-size: 0.88rem;
+      color: #e0eff8;
+      letter-spacing: 0.04em;
+      flex: 1;
+    }
+
+    .rules-section-header .chevron {
+      transition: transform 0.25s;
+      color: var(--text-muted);
+    }
+
+    .rules-section-header.open .chevron { transform: rotate(180deg); }
+
+    .rules-body {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease, padding 0.25s;
+    }
+
+    .rules-body.open {
+      max-height: 2000px;
+      padding: 20px 22px;
+    }
+
+    .rules-body ol,
+    .rules-body ul {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .rules-body li {
+      font-size: 0.8rem;
+      color: #9ab5c4;
+      line-height: 1.6;
+    }
+
+    .rules-body li strong {
+      color: #d0e8f0;
+    }
+
+    .rules-body p {
+      font-size: 0.8rem;
+      color: #9ab5c4;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    /* Judging table */
+    .judging-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 4px;
+    }
+
+    .judging-table th {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-amber);
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255,183,0,0.15);
+    }
+
+    .judging-table td {
+      font-size: 0.78rem;
+      color: #9ab5c4;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .judging-table tr:last-child td { border-bottom: none; }
+
+    .judging-table .weight {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.75rem;
+      color: var(--neon-cyan);
+      font-weight: 600;
+    }
+
+    .track-pill {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 12px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .conduct-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .conduct-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .conduct-item .ci-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .conduct-item p { font-size: 0.76rem; color: #8fa8b8; line-height: 1.4; margin: 0; }
+
+    @media (max-width: 500px) {
+      .conduct-grid { grid-template-columns: 1fr; }
+      .rules-hero { flex-direction: column; gap: 12px; }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .rules-container { padding: 24px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient glows -->
+  <div class="glow-blob" style="width:600px;height:600px;background:#00f5ff;top:-200px;left:-100px;"></div>
+  <div class="glow-blob" style="width:400px;height:400px;background:#bf5fff;bottom:-100px;right:-100px;"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="logo">TECH<span>SYNAPSE</span></div>
+    <div id="backBtnWrap" style="margin-left:auto;display:none;">
+      <button class="back-btn" onclick="goBack()">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 – HOMEPAGE
+  ══════════════════════════════════════════ -->
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <div class="eyebrow">🏆 National Level Hackathon</div>
+      <h1>TECHSYNAPSE<br/><span class="accent">Problem Statements</span> Portal</h1>
+      <p>Explore problem statements by branch and theme. Select your department to get started.</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="section-title">
+      <div class="sub">Browse by Department</div>
+      <h2>Choose Your Branch</h2>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- 1. NexGen Innovators – CSE -->
+      <div class="branch-card cs-accent" onclick="goToTracks('cs')">
+        <div class="card-icon">💻</div>
+        <div class="card-tag">Computer Science</div>
+        <h3>NexGen Innovators</h3>
+        <div class="card-sub">School of Computer Science & Informatics</div>
+        <ul class="track-list">
+          <li>Health Care</li>
+          <li>FinTech</li>
+          <li>Education &amp; Productivity AI</li>
+          <li>AI for Social Media</li>
+          <li>Enterprise Automation &amp; GenAI</li>
+          <li>Cybersecurity – CTF</li>
+        </ul>
+        <div class="card-footer">
+          <span class="track-count">6 TRACKS</span>
+          <span class="arrow">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- 2. TechBridge – ECE -->
+      <div class="branch-card ece-accent" onclick="goToTracks('ece')">
+        <div class="card-icon">📡</div>
+        <div class="card-tag">Electronics &amp; Comm.</div>
+        <h3>TechBridge</h3>
+        <div class="card-sub">Electronics &amp; Communication Engineering</div>
+        <ul class="track-list">
+          <li>Smart Health Care Systems</li>
+          <li>Agritech Solutions</li>
+        </ul>
+        <div class="card-footer">
+          <span class="track-count">2 TRACKS</span>
+          <span class="arrow">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- 3. GreenAmp – EEE -->
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="branch-card eee-accent" onclick="goToTracks('eee')">
+          <div class="card-icon">⚡</div>
+          <div class="card-tag">Electrical Engineering</div>
+          <h3>GreenAmp</h3>
+          <div class="card-sub">Electrical &amp; Electronics Engineering</div>
+          <ul class="track-list">
+            <li>Sustainable Energy &amp; Smart Solar</li>
+            <li>Electric Mobility &amp; Green Transport</li>
+          </ul>
+          <div class="card-footer">
+            <span class="track-count">2 TRACKS</span>
+            <span class="arrow">
+              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </div>
+        <button class="eee-rules-btn-standalone" onclick="goToEEERules()">
+          📋 &nbsp;View EEE Hackathon Rules &amp; Regulations
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="margin-left:6px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- 4. BuildFuture – Civil -->
+      <div class="branch-card civil-accent" onclick="goToTracks('civil')">
+        <div class="card-icon">🏗️</div>
+        <div class="card-tag">Civil Engineering</div>
+        <h3>BuildFuture</h3>
+        <div class="card-sub">Civil Engineering Department</div>
+        <ul class="track-list">
+          <li>Bridge Design &amp; Structural Innovation</li>
+        </ul>
+        <div class="card-footer">
+          <span class="track-count">1 TRACK</span>
+          <span class="arrow">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- 5. Smart Manufacturing – Mech -->
+      <div class="branch-card mech-accent" onclick="goToTracks('mech')">
+        <div class="card-icon">⚙️</div>
+        <div class="card-tag">Mechanical Engineering</div>
+        <h3>Smart Manufacturing</h3>
+        <div class="card-sub">Mechanical Engineering Department</div>
+        <ul class="track-list">
+          <li>Innovative Design</li>
+          <li>3D Printing</li>
+          <li>Sustainable Manufacturing</li>
+        </ul>
+        <div class="card-footer">
+          <span class="track-count">3 TRACKS</span>
+          <span class="arrow">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 – TRACKS LIST
+  ══════════════════════════════════════════ -->
+  <section class="page" id="page-tracks">
+    <div class="section-title" id="trackPageTitle">
+      <div class="sub" id="trackPageBranch"></div>
+      <h2 id="trackPageHeading"></h2>
+    </div>
+
+    <div class="cards-grid" id="tracksGrid"></div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 – PROBLEM STATEMENTS
+  ══════════════════════════════════════════ -->
+  <section class="page" id="page-problem">
+    <div class="problem-container">
+      <div class="problem-header">
+        <div class="breadcrumb" id="problemBreadcrumb"></div>
+        <h2 id="problemTitle"></h2>
+      </div>
+
+      <div class="problem-placeholder">
+        <div class="ps-icon">📋</div>
+        <h3>Problem Statements</h3>
+        <p>Problem statements will be displayed here once they are officially released by the organizing committee.</p>
+        <div class="status-badge">Coming Soon</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 – EEE RULES & REGULATIONS
+  ══════════════════════════════════════════ -->
+  <section class="page" id="page-rules">
+    <div class="rules-container">
+
+      <!-- Hero banner -->
+      <div class="rules-hero">
+        <div class="rules-icon">⚡</div>
+        <div>
+          <div class="eee-tag">⚡ GreenAmp · EEE Department</div>
+          <h2>Hackathon Rules &amp; Regulations</h2>
+          <p>Sustainable Energy &amp; Electric Mobility Innovation Hackathon — official guidelines, judging criteria, and code of conduct for all participants.</p>
+        </div>
+      </div>
+
+      <!-- Section 1 – Hackathon Tracks -->
+      <div class="rules-section">
+        <div class="rules-section-header open" onclick="toggleSection(this)">
+          <div class="sec-num">01</div>
+          <h3>Hackathon Tracks</h3>
+          <svg class="chevron" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+        <div class="rules-body open">
+          <p><strong style="color:#ffd700;">Track I – Sustainable Energy &amp; Smart Solar Solutions</strong><br/>
+          Participants develop innovative solutions related to renewable energy and solar technologies.</p>
+          <div style="margin-bottom:14px;">
+            <span class="track-pill" style="background:rgba(255,215,0,0.1);color:#ffd700;border:1px solid rgba(255,215,0,0.2);">Smart Solar Energy Systems</span>
+            <span class="track-pill" style="background:rgba(255,215,0,0.1);color:#ffd700;border:1px solid rgba(255,215,0,0.2);">AI-Driven Solar Solutions</span>
+            <span class="track-pill" style="background:rgba(255,215,0,0.1);color:#ffd700;border:1px solid rgba(255,215,0,0.2);">Renewable Energy Innovations</span>
+            <span class="track-pill" style="background:rgba(255,215,0,0.1);color:#ffd700;border:1px solid rgba(255,215,0,0.2);">Solar Storage &amp; Management</span>
+          </div>
+          <p><strong style="color:#00f5ff;">Track II – Electric Mobility &amp; Green Transportation</strong><br/>
+          Participants focus on technologies related to electric vehicles and sustainable transportation.</p>
+          <div>
+            <span class="track-pill" style="background:rgba(0,245,255,0.08);color:#00f5ff;border:1px solid rgba(0,245,255,0.2);">EV Innovations</span>
+            <span class="track-pill" style="background:rgba(0,245,255,0.08);color:#00f5ff;border:1px solid rgba(0,245,255,0.2);">EV Charging Infrastructure</span>
+            <span class="track-pill" style="background:rgba(0,245,255,0.08);color:#00f5ff;border:1px solid rgba(0,245,255,0.2);">Smart EV Ecosystems</span>
+            <span class="track-pill" style="background:rgba(0,245,255,0.08);color:#00f5ff;border:1px solid rgba(0,245,255,0.2);">Sustainable Transport</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2 – General Rules -->
+      <div class="rules-section">
+        <div class="rules-section-header open" onclick="toggleSection(this)">
+          <div class="sec-num">02</div>
+          <h3>General Rules</h3>
+          <svg class="chevron" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+        <div class="rules-body open">
+          <ol>
+            <li>Teams must select <strong>only one track</strong> for their project.</li>
+            <li>All participants should bring their project components.</li>
+            <li>All projects must be <strong>developed during the hackathon duration</strong>.</li>
+            <li>Previously developed or submitted projects are <strong>not allowed</strong>.</li>
+            <li>Projects must address a real-world problem related to the selected track.</li>
+            <li>Participants must maintain professional and respectful behaviour throughout the event.</li>
+            <li><strong>Plagiarism or copying existing work</strong> will result in disqualification.</li>
+            <li>College will ensure thorough security checks at any instant. Any unwanted material found will lead to strict action and disqualification.</li>
+            <li>College reserves the right to restrict participant movement on campus at any time.</li>
+            <li>The organizing committee reserves the right to disqualify any team found in violation of these guidelines. Final decisions regarding rules and evaluation are binding.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Section 3 – Code of Conduct -->
+      <div class="rules-section">
+        <div class="rules-section-header" onclick="toggleSection(this)">
+          <div class="sec-num">03</div>
+          <h3>Code of Conduct</h3>
+          <svg class="chevron" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+        <div class="rules-body">
+          <div class="conduct-grid">
+            <div class="conduct-item">
+              <div class="ci-icon">🤝</div>
+              <p>Respect all participants, mentors, and organizers at all times.</p>
+            </div>
+            <div class="conduct-item">
+              <div class="ci-icon">🚫</div>
+              <p>No harassment, discrimination, or abusive behaviour will be tolerated.</p>
+            </div>
+            <div class="conduct-item">
+              <div class="ci-icon">🚭</div>
+              <p>Alcohol, smoking, and drugs are <strong>strictly prohibited</strong> during the event.</p>
+            </div>
+            <div class="conduct-item">
+              <div class="ci-icon">🏫</div>
+              <p>Participants must follow all campus safety and security regulations.</p>
+            </div>
+            <div class="conduct-item">
+              <div class="ci-icon">💬</div>
+              <p>Engage in clear communication, teamwork, and creativity when presenting your solution.</p>
+            </div>
+            <div class="conduct-item">
+              <div class="ci-icon">✨</div>
+              <p>Operate with integrity, being accountable for your actions and supporting each other.</p>
+            </div>
+          </div>
+          <p style="margin-top:14px;color:#c07a7a;font-size:0.75rem;">⚠ Failure to follow the code of conduct may result in <strong style="color:#ff6b6b;">immediate disqualification</strong>.</p>
+        </div>
+      </div>
+
+      <!-- Section 4 – Judging: Track I -->
+      <div class="rules-section">
+        <div class="rules-section-header" onclick="toggleSection(this)">
+          <div class="sec-num">04</div>
+          <h3>Judging Criteria – Track I (Solar &amp; Energy)</h3>
+          <svg class="chevron" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+        <div class="rules-body">
+          <table class="judging-table">
+            <thead>
+              <tr>
+                <th>Criteria</th>
+                <th>Weightage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Innovation &amp; Creativity</td><td class="weight">25%</td></tr>
+              <tr><td>Technical Implementation</td><td class="weight">25%</td></tr>
+              <tr><td>Relevance to Sustainable Energy</td><td class="weight">20%</td></tr>
+              <tr><td>Feasibility &amp; Practical Impact</td><td class="weight">20%</td></tr>
+              <tr><td>Presentation &amp; Demonstration</td><td class="weight">10%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 5 – Judging: Track II -->
+      <div class="rules-section">
+        <div class="rules-section-header" onclick="toggleSection(this)">
+          <div class="sec-num">05</div>
+          <h3>Judging Criteria – Track II (Electric Mobility)</h3>
+          <svg class="chevron" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+        <div class="rules-body">
+          <table class="judging-table">
+            <thead>
+              <tr>
+                <th>Criteria</th>
+                <th>Weightage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Innovation in EV Technology</td><td class="weight">25%</td></tr>
+              <tr><td>Technical Implementation</td><td class="weight">25%</td></tr>
+              <tr><td>Impact on Sustainable Transportation</td><td class="weight">20%</td></tr>
+              <tr><td>Scalability &amp; Feasibility</td><td class="weight">20%</td></tr>
+              <tr><td>Presentation &amp; Demonstration</td><td class="weight">10%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 6 – Facilities & Logistics -->
+      <div class="rules-section">
+        <div class="rules-section-header" onclick="toggleSection(this)">
+          <div class="sec-num">06</div>
+          <h3>Facilities &amp; Logistics</h3>
+          <svg class="chevron" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+        <div class="rules-body">
+          <ul>
+            <li>🍽 Food will be provided at <strong>designated areas and scheduled times</strong>.</li>
+            <li>📦 Registration kits will be distributed at the registration desk.</li>
+            <li>🧹 Participants must <strong>maintain cleanliness</strong> in the workspace.</li>
+            <li>🔒 The organizers are <strong>not responsible for personal belongings</strong>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Important Note -->
+      <div style="background:rgba(255,183,0,0.05);border:1px solid rgba(255,183,0,0.15);border-radius:12px;padding:20px 22px;margin-top:8px;">
+        <p style="font-size:0.78rem;color:#b0a060;line-height:1.7;">
+          <strong style="color:var(--accent-amber);font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:0.1em;">📌 IMPORTANT NOTE</strong><br/>
+          By participating in the hackathon, all participants agree to follow the rules and guidelines mentioned in this rulebook.
+          The decision of the organizing committee and judges will be <strong style="color:#e0c060;">final and binding</strong>.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    function toggleSection(header) {
+      header.classList.toggle('open');
+      const body = header.nextElementSibling;
+      body.classList.toggle('open');
+    }
+
+    // ── Data ──────────────────────────────────────────
+    const branches = {
+      cs: {
+        label: 'NexGen Innovators',
+        sub: 'School of Computer Science & Informatics',
+        accent: '#00f5ff',
+        icon: '💻',
+        tracks: [
+          { id: 'cs-health',    title: 'Health Care',                        desc: 'AI-powered healthcare diagnostics, patient monitoring, and smart medical solutions.' },
+          { id: 'cs-fintech',   title: 'FinTech',                            desc: 'Innovative financial technology, digital payments, and blockchain solutions.' },
+          { id: 'cs-edu',       title: 'Education & Productivity AI',        desc: 'AI tools for personalized learning, skill development, and productivity.' },
+          { id: 'cs-social',    title: 'AI for Social Media & Content Intelligence', desc: 'Intelligent content moderation, recommendation systems, and analytics.' },
+          { id: 'cs-enterprise',title: 'Enterprise Automation & GenAI Systems', desc: 'LLM-powered workflows, automation pipelines, and enterprise AI integrations.' },
+          { id: 'cs-ctf',       title: 'Cybersecurity – Capture The Flag',   desc: 'Ethical hacking, vulnerability research, and security challenges.' },
+        ]
+      },
+      ece: {
+        label: 'TechBridge',
+        sub: 'Electronics & Communication Engineering',
+        accent: '#00ff9f',
+        icon: '📡',
+        tracks: [
+          { id: 'ece-health',  title: 'Smart Health Care Systems',  desc: 'IoT-based patient monitoring, wearable health devices, and smart diagnostics for accessible healthcare.' },
+          { id: 'ece-agri',    title: 'Agritech Solutions',         desc: 'Precision agriculture using sensors, drones, embedded systems, and wireless communication.' },
+        ]
+      },
+      eee: {
+        label: 'GreenAmp',
+        sub: 'Electrical & Electronics Engineering',
+        accent: '#ffd700',
+        icon: '⚡',
+        tracks: [
+          { id: 'eee-solar', title: 'Sustainable Energy & Smart Solar Solutions', desc: 'Smart solar systems, AI-driven energy management, renewable storage, and green energy innovations.' },
+          { id: 'eee-ev',    title: 'Electric Mobility & Green Transportation',   desc: 'EV charging infrastructure, smart EV ecosystems, and sustainable transportation technologies.' },
+        ]
+      },
+      civil: {
+        label: 'BuildFuture',
+        sub: 'Civil Engineering Department',
+        accent: '#ff6b35',
+        icon: '🏗️',
+        tracks: [
+          { id: 'civil-bridge', title: 'Bridge Design & Structural Innovation Challenge', desc: 'Innovative structural solutions, load analysis, material optimization, and resilient infrastructure design.' },
+        ]
+      },
+      mech: {
+        label: 'Smart Manufacturing',
+        sub: 'Mechanical Engineering Department',
+        accent: '#bf5fff',
+        icon: '⚙️',
+        tracks: [
+          { id: 'mech-design', title: 'Innovative Design',          desc: 'Creative mechanical design, human-centered engineering, and novel product prototyping.' },
+          { id: 'mech-3d',     title: '3D Printing',                desc: 'Additive manufacturing, rapid prototyping, and advanced 3D-printed structures.' },
+          { id: 'mech-sustain',title: 'Sustainable Manufacturing',  desc: 'Eco-friendly production processes, waste reduction, and green industrial technologies.' },
+        ]
+      },
+    };
+
+    // ── State ──────────────────────────────────────────
+    let navHistory = ['home'];
+
+    function goToRules() {
+      navHistory.push('rules');
+      showPage('rules');
+    }
+
+    function goToEEERules() {
+      navHistory.push('rules');
+      showPage('rules');
+    }
+
+    // ── Navigation ──────────────────────────────────────
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + id).classList.add('active');
+      document.getElementById('backBtnWrap').style.display = id === 'home' ? 'none' : 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goBack() {
+      if (navHistory.length > 1) {
+        navHistory.pop();
+        const prev = navHistory[navHistory.length - 1];
+        if (prev === 'home') showPage('home');
+        else if (prev === 'rules') showPage('rules');
+        else if (prev.startsWith('tracks-')) {
+          const branchId = prev.replace('tracks-', '');
+          renderTracks(branchId, false);
+        }
+      }
+    }
+
+    function goToTracks(branchId) {
+      renderTracks(branchId, true);
+    }
+
+    function renderTracks(branchId, pushHistory) {
+      const branch = branches[branchId];
+      if (!branch) return;
+
+      document.getElementById('trackPageBranch').textContent = branch.label + ' · ' + branch.sub;
+      document.getElementById('trackPageHeading').textContent = 'Select a Track';
+
+      const grid = document.getElementById('tracksGrid');
+      grid.innerHTML = '';
+
+      branch.tracks.forEach((track, i) => {
+        const card = document.createElement('div');
+        card.className = 'track-card';
+        card.style.animationDelay = (i * 0.07) + 's';
+        card.style.borderLeftColor = branch.accent;
+        card.innerHTML = `
+          <h3>${track.title}</h3>
+          <p>${track.desc}</p>
+          <div class="track-meta">
+            <span class="badge" style="color:${branch.accent};border-color:${branch.accent}33;background:${branch.accent}11;">View Problems</span>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="${branch.accent}" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        `;
+        card.addEventListener('click', () => goToProblem(branchId, track));
+        grid.appendChild(card);
+      });
+
+      if (pushHistory) navHistory.push('tracks-' + branchId);
+      showPage('tracks');
+    }
+
+    function goToProblem(branchId, track) {
+      const branch = branches[branchId];
+      document.getElementById('problemBreadcrumb').textContent =
+        branch.label + '  ›  ' + track.title;
+      document.getElementById('problemTitle').textContent = track.title;
+      document.getElementById('page-problem')
+        .querySelector('.problem-header')
+        .style.borderLeftColor = branch.accent;
+
+      navHistory.push('problem');
+      showPage('problem');
+    }
+  </script>
+</body>
+</html>
