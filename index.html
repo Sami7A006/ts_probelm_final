@@ -555,6 +555,34 @@
       box-shadow: 0 0 18px rgba(0,245,255,0.2);
     }
 
+    /* ── CTF Rules standalone button (below card) ── */
+    .ctf-rules-btn-standalone {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #39ff14;
+      border: 1px solid rgba(57,255,20,0.4);
+      background: rgba(57,255,20,0.07);
+      padding: 11px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      z-index: 10;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .ctf-rules-btn-standalone:hover {
+      background: rgba(57,255,20,0.15);
+      border-color: rgba(57,255,20,0.8);
+      transform: translateY(-2px);
+      box-shadow: 0 0 18px rgba(57,255,20,0.2);
+    }
+
     /* ── Civil Rules standalone button (below card) ── */
     .civil-rules-btn-standalone {
       display: flex;
@@ -1608,6 +1636,12 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
           </svg>
         </button>
+        <button class="ctf-rules-btn-standalone" onclick="goToCTFRules()">
+          🚩 &nbsp;CTF Rules &amp; Guidelines
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="margin-left:6px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
       </div>
 
       <!-- 2. TechBridge – ECE -->
@@ -2347,6 +2381,167 @@
     </div><!-- end cs-rules-page -->
   </section>
 
+  <!-- ══════════════════════════════════════════
+       PAGE – CTF RULES & GUIDELINES
+  ══════════════════════════════════════════ -->
+  <section class="page" id="page-ctf-rules">
+    <div class="cs-rules-page">
+
+      <!-- ── HERO ── -->
+      <div class="cs-hero" style="background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(57,255,20,0.08) 0%, transparent 70%);">
+        <div class="cs-hero-bg" style="background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(57,255,20,0.08) 0%, transparent 70%);"></div>
+        <div class="cs-hero-content">
+          <div class="cs-hero-badge" style="color:#39ff14;border-color:rgba(57,255,20,0.3);background:rgba(57,255,20,0.08);">🚩 NextGen Innovators CTF</div>
+          <h1 class="cs-hero-title">CTF Rules &amp; <span style="color:#39ff14;">Guidelines</span></h1>
+          <p class="cs-hero-sub">TECHSYNAPSE 2026 · Offline Capture The Flag Competition</p>
+          <div class="cs-hero-meta">
+            <span>📅 Mar 16–17, 2026</span>
+            <span>📍 Geethanjali College of Engineering &amp; Technology</span>
+            <span>⏱️ 24 Hours</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STAT CARDS ── -->
+      <div class="cs-stats-row">
+        <div class="cs-stat" style="--stat-color:#39ff14;">
+          <div class="cs-stat-val" style="color:#39ff14;">24</div>
+          <div class="cs-stat-lbl">Hours</div>
+        </div>
+        <div class="cs-stat">
+          <div class="cs-stat-val" style="color:#39ff14;">2–4</div>
+          <div class="cs-stat-lbl">Team Size</div>
+        </div>
+        <div class="cs-stat">
+          <div class="cs-stat-val" style="color:#39ff14;">CTF{}</div>
+          <div class="cs-stat-lbl">Flag Format</div>
+        </div>
+        <div class="cs-stat">
+          <div class="cs-stat-val" style="color:#39ff14;">JEO</div>
+          <div class="cs-stat-lbl">Jeopardy Style</div>
+        </div>
+      </div>
+
+      <div class="cs-body">
+
+        <!-- ── EVENT OVERVIEW ── -->
+        <div class="cs-block" style="border-color:rgba(57,255,20,0.15);">
+          <div class="cs-block-label" style="color:#39ff14;border-bottom-color:rgba(57,255,20,0.15);">📡 Event Overview</div>
+          <p class="cs-para">The NextGen Innovators CTF is conducted as an <strong style="color:#d0e8f0;">offline Capture The Flag</strong> competition as part of TechSynapse. Teams compete in a jeopardy-style format, tackling multiple independent challenges across different cybersecurity domains — all within a 24-hour window.</p>
+          <div class="cs-themes-grid" style="margin-top:8px;">
+            <div class="cs-theme-card" style="border-color:rgba(57,255,20,0.15);background:rgba(57,255,20,0.04);"><span class="cs-theme-icon">🔐</span><span>Web Exploitation</span></div>
+            <div class="cs-theme-card" style="border-color:rgba(57,255,20,0.15);background:rgba(57,255,20,0.04);"><span class="cs-theme-icon">🔁</span><span>Reverse Engineering</span></div>
+            <div class="cs-theme-card" style="border-color:rgba(57,255,20,0.15);background:rgba(57,255,20,0.04);"><span class="cs-theme-icon">🧩</span><span>Cryptography</span></div>
+            <div class="cs-theme-card" style="border-color:rgba(57,255,20,0.15);background:rgba(57,255,20,0.04);"><span class="cs-theme-icon">🕵️</span><span>Forensics</span></div>
+            <div class="cs-theme-card cs-theme-wide" style="border-color:rgba(57,255,20,0.15);background:rgba(57,255,20,0.04);"><span class="cs-theme-icon">💻</span><span>Binary Exploitation &amp; More</span></div>
+          </div>
+        </div>
+
+        <!-- ── SCHEDULE + FORMAT ── -->
+        <div class="cs-two-col">
+          <div class="cs-block" style="border-color:rgba(57,255,20,0.15);">
+            <div class="cs-block-label" style="color:#39ff14;border-bottom-color:rgba(57,255,20,0.15);">🗓️ Event Schedule</div>
+            <ul class="cs-list">
+              <li><strong style="color:#d0e8f0;">Starts:</strong> 16th March, 10:30 AM IST</li>
+              <li><strong style="color:#d0e8f0;">Ends:</strong> 17th March, 10:30 AM IST</li>
+              <li><strong style="color:#d0e8f0;">Duration:</strong> 24 Hours</li>
+              <li><strong style="color:#d0e8f0;">Venue:</strong> Geethanjali College of Engineering &amp; Technology</li>
+            </ul>
+          </div>
+          <div class="cs-block" style="border-color:rgba(57,255,20,0.15);">
+            <div class="cs-block-label" style="color:#39ff14;border-bottom-color:rgba(57,255,20,0.15);">🎯 Format</div>
+            <ul class="cs-list">
+              <li><strong style="color:#d0e8f0;">Jeopardy-style</strong> CTF competition</li>
+              <li>Multiple independent challenges across cybersecurity domains</li>
+              <li>Teams can solve challenges at their own pace within the 24-hour window</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ── FLAG FORMAT ── -->
+        <div class="cs-block" style="border-color:rgba(57,255,20,0.15);">
+          <div class="cs-block-label" style="color:#39ff14;border-bottom-color:rgba(57,255,20,0.15);">🚩 Flag Format</div>
+          <p class="cs-para">Unless specified otherwise, all flags will follow this format:</p>
+          <div style="background:rgba(57,255,20,0.06);border:1px solid rgba(57,255,20,0.25);border-radius:10px;padding:16px 20px;font-family:'Orbitron',monospace;font-size:1rem;color:#39ff14;letter-spacing:0.08em;text-align:center;">
+            GCETCTF{your_flag_goes_here}
+          </div>
+        </div>
+
+        <!-- ── TEAM RULES + WRITE-UPS ── -->
+        <div class="cs-two-col">
+          <div class="cs-block" style="border-color:rgba(57,255,20,0.15);">
+            <div class="cs-block-label" style="color:#39ff14;border-bottom-color:rgba(57,255,20,0.15);">👥 Team Rules</div>
+            <ul class="cs-list">
+              <li>Team size: <strong style="color:#d0e8f0;">2–4 members</strong></li>
+              <li>Each participant may be part of <strong style="color:#d0e8f0;">only one team</strong></li>
+              <li>Teams must register <strong style="color:#d0e8f0;">before</strong> the competition begins</li>
+            </ul>
+          </div>
+          <div class="cs-block" style="border-color:rgba(57,255,20,0.15);">
+            <div class="cs-block-label" style="color:#39ff14;border-bottom-color:rgba(57,255,20,0.15);">✍️ Write-Ups</div>
+            <ul class="cs-list">
+              <li>Teams must prepare write-ups for every challenge they solve</li>
+              <li>Write-ups must be completed <strong style="color:#d0e8f0;">during the event</strong> (within the 24-hour window)</li>
+              <li>Prepare write-ups <strong style="color:#d0e8f0;">in parallel</strong> while solving challenges</li>
+              <li>Write-ups must clearly explain the approach, tools, and methodology used</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ── EVALUATION ── -->
+        <div class="cs-block" style="border-color:rgba(57,255,20,0.15);">
+          <div class="cs-block-label" style="color:#39ff14;border-bottom-color:rgba(57,255,20,0.15);">⚖️ Evaluation</div>
+          <div class="cs-judge-grid">
+            <div class="cs-judge-card" style="border-color:rgba(57,255,20,0.1);">
+              <div class="cs-jc-icon">🏆</div>
+              <div class="cs-jc-name">Live Leaderboard</div>
+              <div class="cs-jc-desc">Teams ranked in real-time based on points accumulated</div>
+            </div>
+            <div class="cs-judge-card" style="border-color:rgba(57,255,20,0.1);">
+              <div class="cs-jc-icon">📝</div>
+              <div class="cs-jc-name">Write-Up Review</div>
+              <div class="cs-jc-desc">Submitted write-ups reviewed as part of the evaluation process</div>
+            </div>
+            <div class="cs-judge-card" style="border-color:rgba(57,255,20,0.1);">
+              <div class="cs-jc-icon">🥇</div>
+              <div class="cs-jc-name">Winner Criteria</div>
+              <div class="cs-jc-desc">Team with highest points at the end is declared the winner</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── FAIR PLAY ── -->
+        <div class="cs-block" style="border-color:rgba(57,255,20,0.15);">
+          <div class="cs-block-label" style="color:#39ff14;border-bottom-color:rgba(57,255,20,0.15);">📋 Fair Play &amp; Rules</div>
+          <div class="cs-rules-list">
+            <div class="cs-rule-item"><span class="cs-rule-num" style="background:rgba(57,255,20,0.1);border-color:rgba(57,255,20,0.2);color:#39ff14;">01</span><span>Sharing flags, solutions, or write-ups with other teams is <strong style="color:#d0e8f0;">strictly prohibited</strong>.</span></div>
+            <div class="cs-rule-item"><span class="cs-rule-num" style="background:rgba(57,255,20,0.1);border-color:rgba(57,255,20,0.2);color:#39ff14;">02</span><span>Collaboration between different teams is <strong style="color:#d0e8f0;">not allowed</strong>.</span></div>
+            <div class="cs-rule-item"><span class="cs-rule-num" style="background:rgba(57,255,20,0.1);border-color:rgba(57,255,20,0.2);color:#39ff14;">03</span><span>Any attempt to <strong style="color:#d0e8f0;">attack or disrupt</strong> the CTF infrastructure will lead to immediate disqualification.</span></div>
+            <div class="cs-rule-item"><span class="cs-rule-num" style="background:rgba(57,255,20,0.1);border-color:rgba(57,255,20,0.2);color:#39ff14;">04</span><span>Organizers reserve the right to <strong style="color:#d0e8f0;">monitor activity logs</strong> throughout the event.</span></div>
+            <div class="cs-rule-item"><span class="cs-rule-num" style="background:rgba(57,255,20,0.1);border-color:rgba(57,255,20,0.2);color:#39ff14;">05</span><span>Participation implies acceptance of all rules. Organizer decisions are <strong style="color:#d0e8f0;">final and binding</strong>.</span></div>
+          </div>
+        </div>
+
+        <!-- ── NOT TOLERATED ── -->
+        <div class="cs-block" style="border-color:rgba(57,255,20,0.15);">
+          <div class="cs-block-label" style="color:#39ff14;border-bottom-color:rgba(57,255,20,0.15);">🚫 Things That Won't Be Tolerated</div>
+          <div class="cs-no-list">
+            <div class="cs-no-item">Sharing flags or solutions with competing teams</div>
+            <div class="cs-no-item">Attacking or disrupting CTF infrastructure</div>
+            <div class="cs-no-item">Any form of plagiarism or unethical conduct</div>
+            <div class="cs-no-item">Harassment, abusive language, or threats</div>
+          </div>
+        </div>
+
+        <!-- ── CLOSING NOTE ── -->
+        <div class="cs-block" style="border-color:rgba(57,255,20,0.15);background:rgba(57,255,20,0.03);text-align:center;">
+          <p class="cs-para" style="margin-bottom:0;">The contest goes live at <strong style="color:#39ff14;">10:30 AM IST on 16th March</strong> and ends at <strong style="color:#39ff14;">10:30 AM IST on 17th March</strong>. Prepare accordingly and good luck! 🚩</p>
+        </div>
+
+      </div><!-- end cs-body -->
+    </div><!-- end cs-rules-page -->
+  </section>
+
   <section class="page" id="page-cs-rules">
     <div class="cs-rules-page">
 
@@ -2621,6 +2816,11 @@
       showPage('cs-rules');
     }
 
+    function goToCTFRules() {
+      navHistory.push('ctf-rules');
+      showPage('ctf-rules');
+    }
+
     // ── Navigation ──────────────────────────────────────
     function showPage(id) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -2637,6 +2837,7 @@
         else if (prev === 'rules') showPage('rules');
         else if (prev === 'civil-rules') showPage('civil-rules');
         else if (prev === 'cs-rules') showPage('cs-rules');
+        else if (prev === 'ctf-rules') showPage('ctf-rules');
         else if (prev === 'ece-rules') showPage('ece-rules');
         else if (prev.startsWith('tracks-')) {
           const branchId = prev.replace('tracks-', '');
@@ -2684,6 +2885,321 @@
 
     // ── Problem statement content data ──────────────────
     const problemContent = {
+
+      'eee-solar': `
+        <div class="ps-intro-box">
+          <strong style="color:#ffd700;">GreenAmp · Sustainable Energy &amp; Smart Solar Solutions</strong><br/><br/>
+          Teams should develop innovative solar energy and smart grid solutions that improve energy access, efficiency, and sustainability — aligned with SDG 7, 9, 11, and 13.
+        </div>
+        <div class="ps-section">
+          <div class="ps-section-title">Problem Statements</div>
+
+          <div class="ps-card" style="margin-bottom:16px;">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">01 · Smart Solar for a Sustainable Future</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Develop a smart solar energy system that monitors real-time solar generation, manages energy distribution to homes or communities, and reduces dependence on the conventional power grid.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Create a cost-effective, scalable solar solution with intelligent monitoring and automated control to maximise energy yield and minimise wastage.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>Real-time solar generation monitoring dashboard</li>
+              <li>Automated load balancing and energy distribution</li>
+              <li>Fault detection and maintenance alerts</li>
+              <li>Grid tie-in or off-grid operation mode</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">IoT Sensors</span>
+              <span class="ps-tag">MPPT Controllers</span>
+              <span class="ps-tag">Energy Management Systems</span>
+              <span class="ps-tag">Cloud Dashboard</span>
+              <span class="ps-tag">Embedded Systems</span>
+            </div>
+          </div>
+
+          <div class="ps-card" style="margin-bottom:16px;">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">02 · Intelligent Solar Energy Systems</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Design an intelligent solar energy management platform that uses sensor data and predictive analytics to optimise panel orientation, energy output, and storage charging cycles.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Increase the efficiency of solar installations through real-time intelligence, adaptive control, and data-driven decision-making.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>Automated panel tilt / tracking mechanism</li>
+              <li>Predictive analytics for energy output forecasting</li>
+              <li>Smart battery charging optimisation</li>
+              <li>User-facing energy insights interface</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">Servo / Stepper Motors</span>
+              <span class="ps-tag">ML Forecasting</span>
+              <span class="ps-tag">Battery BMS</span>
+              <span class="ps-tag">IoT Platform</span>
+              <span class="ps-tag">Data Analytics</span>
+            </div>
+          </div>
+
+          <div class="ps-card" style="margin-bottom:16px;">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">03 · Harnessing the Sun: Smart Energy Innovations</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Develop a novel application that harnesses solar energy for a specific real-world use case — such as solar-powered irrigation, solar street lighting with adaptive control, or community microgrids.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Demonstrate a working prototype or simulation of a solar-driven system that solves a tangible problem in agriculture, infrastructure, or community energy access.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>Solar-powered prototype addressing a specific use case</li>
+              <li>Energy harvesting and storage sub-system</li>
+              <li>Monitoring and control interface</li>
+              <li>Impact and feasibility analysis</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">Solar PV Panels</span>
+              <span class="ps-tag">Microcontrollers</span>
+              <span class="ps-tag">Energy Storage</span>
+              <span class="ps-tag">Adaptive Control</span>
+              <span class="ps-tag">SCADA / HMI</span>
+            </div>
+          </div>
+
+          <div class="ps-card" style="margin-bottom:16px;">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">04 · Next-Generation Solar and Energy Storage</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Design a next-gen solar + storage system that addresses the intermittency challenge of renewable energy by pairing high-efficiency solar collection with advanced battery or hybrid storage technologies.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Provide reliable, round-the-clock clean energy by intelligently managing charge and discharge cycles, predicting demand, and preventing grid stress.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>Hybrid solar + storage prototype or simulation</li>
+              <li>Intelligent charge / discharge scheduling</li>
+              <li>Demand prediction and load shifting</li>
+              <li>Performance benchmarking and economic analysis</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">Li-ion / Flow Batteries</span>
+              <span class="ps-tag">Energy Forecasting ML</span>
+              <span class="ps-tag">Power Electronics</span>
+              <span class="ps-tag">Smart Inverters</span>
+              <span class="ps-tag">Grid Simulation</span>
+            </div>
+          </div>
+
+          <div class="ps-card" style="margin-bottom:16px;">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">05 · AI-Driven Solar Energy Solutions</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Build an AI-powered platform that uses weather data, historical generation patterns, and real-time sensor inputs to maximise solar energy yield, predict faults, and automate maintenance scheduling.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Reduce operational costs and downtime for solar installations through proactive AI-driven management and anomaly detection.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>AI model for solar output prediction using weather data</li>
+              <li>Anomaly / fault detection in panel performance</li>
+              <li>Automated maintenance scheduling system</li>
+              <li>Energy yield optimisation dashboard</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">Machine Learning</span>
+              <span class="ps-tag">Weather API Integration</span>
+              <span class="ps-tag">Time-Series Analysis</span>
+              <span class="ps-tag">Computer Vision (panel inspection)</span>
+              <span class="ps-tag">Cloud AI</span>
+            </div>
+          </div>
+
+          <div class="ps-card">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">06 · Innovating the Future of Renewable Energy</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Propose and prototype an innovative solution that advances renewable energy adoption — this could include hybrid wind-solar systems, energy harvesting from unconventional sources, or smart peer-to-peer energy trading platforms.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Push the boundaries of current renewable energy technology with a creative, implementable concept that demonstrates measurable environmental and economic benefits.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>Innovative renewable energy prototype or system design</li>
+              <li>Technical feasibility and impact analysis</li>
+              <li>Scalability roadmap and economic model</li>
+              <li>Live demonstration or simulation</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">Hybrid Energy Systems</span>
+              <span class="ps-tag">Blockchain Energy Trading</span>
+              <span class="ps-tag">Piezoelectric / Wind Harvesting</span>
+              <span class="ps-tag">Smart Grid</span>
+              <span class="ps-tag">Digital Twin</span>
+            </div>
+          </div>
+        </div>
+        <div class="ps-section">
+          <div class="ps-section-title">Eligibility</div>
+          <div class="ps-card">
+            <ul class="ps-list">
+              <li>B.Tech (All Branches)</li>
+              <li>Diploma Students</li>
+              <li>Maximum 3–4 students per team</li>
+            </ul>
+          </div>
+        </div>`,
+
+      'eee-ev': `
+        <div class="ps-intro-box">
+          <strong style="color:#ffd700;">GreenAmp · Electric Mobility &amp; Green Transportation</strong><br/><br/>
+          Teams should develop solutions that accelerate the adoption of electric vehicles, build smarter charging infrastructure, and create sustainable transportation ecosystems — aligned with SDG 7, 11, 12, and 13.
+        </div>
+        <div class="ps-section">
+          <div class="ps-section-title">Problem Statements</div>
+
+          <div class="ps-card" style="margin-bottom:16px;">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">01 · Driving the Future with Electric Mobility</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Develop an integrated electric mobility solution that addresses a key barrier to EV adoption — such as range anxiety, high upfront cost, or lack of public awareness — through hardware innovation, software tools, or policy-linked simulation.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Create a tangible prototype or system that accelerates EV adoption and demonstrates a clear economic or environmental benefit over conventional vehicles.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>EV adoption barrier analysis and proposed solution</li>
+              <li>Working prototype, app, or simulation model</li>
+              <li>Cost-benefit and environmental impact analysis</li>
+              <li>Scalability and deployment roadmap</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">EV Powertrain Simulation</span>
+              <span class="ps-tag">Battery Technology</span>
+              <span class="ps-tag">Mobile / Web App</span>
+              <span class="ps-tag">Data Analytics</span>
+              <span class="ps-tag">IoT Telemetry</span>
+            </div>
+          </div>
+
+          <div class="ps-card" style="margin-bottom:16px;">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">02 · Smart EV Ecosystems and Green Transportation</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Design a smart EV ecosystem that connects vehicles, charging stations, energy providers, and users in a unified platform — enabling seamless trip planning, real-time charging availability, and dynamic energy pricing.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Improve user experience and grid efficiency by creating an intelligent, interoperable EV ecosystem that reduces energy waste and maximises convenience.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>Unified EV ecosystem platform (app / web / embedded)</li>
+              <li>Real-time charging station availability and booking</li>
+              <li>Dynamic pricing and energy load balancing</li>
+              <li>Trip planning with range and charging waypoint optimisation</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">OCPP Protocol</span>
+              <span class="ps-tag">Maps &amp; Routing API</span>
+              <span class="ps-tag">Real-Time Data Streams</span>
+              <span class="ps-tag">Cloud Platform</span>
+              <span class="ps-tag">Smart Grid Integration</span>
+            </div>
+          </div>
+
+          <div class="ps-card" style="margin-bottom:16px;">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">03 · Electrifying Mobility for a Sustainable World</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Develop a solution that promotes electric mobility in underserved segments — such as electric two-wheelers for rural delivery, electric auto-rickshaws, or shared EV fleets for last-mile connectivity.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Demonstrate how electrification of non-traditional vehicle segments can reduce carbon emissions, lower operational costs, and improve accessibility for everyday commuters.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>Target segment analysis and solution design</li>
+              <li>Prototype, simulation, or business model</li>
+              <li>Carbon footprint and cost-saving calculation</li>
+              <li>Infrastructure requirements and rollout plan</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">Fleet Management Software</span>
+              <span class="ps-tag">Swappable Battery Systems</span>
+              <span class="ps-tag">GPS Tracking</span>
+              <span class="ps-tag">Emission Modelling</span>
+              <span class="ps-tag">Mobile App</span>
+            </div>
+          </div>
+
+          <div class="ps-card" style="margin-bottom:16px;">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">04 · Innovations in Electric Vehicle Technology</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Innovate on a specific component or sub-system of electric vehicles — such as battery thermal management, regenerative braking efficiency, lightweight structural design, or advanced motor control algorithms.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Demonstrate a measurable performance improvement over existing EV technology through a focused engineering innovation with a working prototype or simulation.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>Targeted EV sub-system innovation prototype or simulation</li>
+              <li>Performance benchmarking against current solutions</li>
+              <li>Technical design documentation</li>
+              <li>Feasibility and manufacturing cost analysis</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">Thermal Management</span>
+              <span class="ps-tag">Motor Control (FOC/BLDC)</span>
+              <span class="ps-tag">Regenerative Braking</span>
+              <span class="ps-tag">Lightweight Materials</span>
+              <span class="ps-tag">CAD / FEA Simulation</span>
+            </div>
+          </div>
+
+          <div class="ps-card" style="margin-bottom:16px;">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">05 · Intelligent Charging and EV Infrastructure</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Design an intelligent EV charging infrastructure solution that addresses challenges such as grid overload during peak charging, slow charging speeds, unequal geographic distribution of chargers, or lack of smart payment systems.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Build a smarter, more equitable charging network that uses data and automation to balance grid load, reduce wait times, and improve accessibility for EV owners.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>Smart charging station prototype or network simulation</li>
+              <li>Grid load balancing and demand response features</li>
+              <li>Dynamic slot booking and payment system</li>
+              <li>Geographic coverage gap analysis and expansion model</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">V2G (Vehicle-to-Grid)</span>
+              <span class="ps-tag">Smart Metering</span>
+              <span class="ps-tag">Payment Gateway</span>
+              <span class="ps-tag">GIS Mapping</span>
+              <span class="ps-tag">Demand Response AI</span>
+            </div>
+          </div>
+
+          <div class="ps-card">
+            <h3 style="color:#ffd700;font-family:'Orbitron',monospace;font-size:0.95rem;margin-bottom:12px;">06 · Next-Gen Electric Transportation Systems</h3>
+            <div class="ps-label">Problem Description</div>
+            <p class="ps-text">Envision and prototype a next-generation electric transportation system — such as autonomous electric shuttles, hyperlocal electric freight networks, solar-powered EV charging highways, or AI-coordinated multi-modal electric transit.</p>
+            <div class="ps-label">Objective</div>
+            <p class="ps-text">Present a forward-looking, technically grounded concept for electric transportation that is scalable, sustainable, and addresses real urban or rural mobility challenges.</p>
+            <div class="ps-label">Expected Solution</div>
+            <ul class="ps-list">
+              <li>Next-gen EV transportation concept prototype or simulation</li>
+              <li>System architecture and technology stack</li>
+              <li>Environmental and social impact assessment</li>
+              <li>Phased implementation and investment roadmap</li>
+            </ul>
+            <div class="ps-label">Possible Technologies</div>
+            <div class="ps-tags">
+              <span class="ps-tag">Autonomous Systems</span>
+              <span class="ps-tag">AI Route Optimisation</span>
+              <span class="ps-tag">Solar EV Integration</span>
+              <span class="ps-tag">Multi-Modal Transit Platform</span>
+              <span class="ps-tag">Digital Twin</span>
+            </div>
+          </div>
+        </div>
+        <div class="ps-section">
+          <div class="ps-section-title">Eligibility</div>
+          <div class="ps-card">
+            <ul class="ps-list">
+              <li>B.Tech (All Branches)</li>
+              <li>Diploma Students</li>
+              <li>Maximum 3–4 students per team</li>
+            </ul>
+          </div>
+        </div>`,
+
       'ece-health': `
         <div class="ps-intro-box">
           <strong style="color:#00ff9f;">TechBridge · Smart Health Care Systems</strong><br/><br/>
